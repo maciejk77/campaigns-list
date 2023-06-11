@@ -7,15 +7,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import campaigns from './data.json';
-
-type TCampaign = {
-  id: number;
-  name: string;
-  startDate: string;
-  endDate: string;
-  Budget: number;
-};
+import campaigns from '../../data.json';
+import { ICampaign } from '../../../interfaces';
+import { CampaignsContext } from '../..';
 
 function createData(
   id: number,
@@ -27,14 +21,26 @@ function createData(
   return { id, name, startDate, endDate, Budget };
 }
 
-const rows = campaigns.reduce(
-  (acc: TCampaign[], { id, name, startDate, endDate, Budget }: TCampaign) => {
-    return [...acc, createData(id, name, startDate, endDate, Budget)];
-  },
-  []
-);
-
 export default function BasicTable() {
+  const { keyword } = React.useContext(CampaignsContext);
+
+  const rows = campaigns.reduce(
+    (acc: ICampaign[], { id, name, startDate, endDate, Budget }: ICampaign) => {
+      return [...acc, createData(id, name, startDate, endDate, Budget)];
+    },
+    []
+  );
+
+  let filteredRows: any;
+
+  if (!keyword) {
+    filteredRows = rows;
+  } else {
+    filteredRows = rows.filter(({ name }: any) =>
+      name?.toLowerCase().includes(keyword?.toLowerCase())
+    );
+  }
+
   return (
     <TableContainer component={Paper} sx={{ margin: 5, maxWidth: '90%' }}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -48,7 +54,7 @@ export default function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row: TCampaign) => (
+          {filteredRows.map((row: ICampaign) => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
