@@ -84,11 +84,15 @@ export const CampaignsProvider = ({
   }, [keyword]);
 
   // useEffect(() => {
-  //   const foo = campaigns.filter(
-  //     (row) => dayjs(row.startDate) >= dayjs(startDate)
-  //   );
+  //   if (startDate) {
+  //     const filteredForDate = campaigns.filter(
+  //       (row) => dayjs(row.startDate) >= dayjs(startDate)
+  //     );
 
-  //   setCampaigns(foo);
+  //     setCampaigns(filteredForDate);
+  //   }
+  //   return () => setCampaigns(rows);
+  //   // eslint-disable-next-line
   // }, [startDate]);
 
   return (
