@@ -3,8 +3,8 @@ import React, {
   useState,
   useEffect,
   useMemo,
-  Dispatch,
-  SetStateAction,
+  StrictMode,
+  ReactNode,
 } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -13,27 +13,12 @@ import Table from './components/Table';
 import NavSearchBar from './components/NavSearchBar';
 import CampaignDateRangePicker from './components/CampaignDateRangePicker';
 import data from '../src/data.json';
-import { ICampaign } from '../interfaces';
+import { ICampaign, ICampaignsContextValue, TCampaigns } from './interfaces';
 import dayjs from 'dayjs';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-
-type TProps = string | null | undefined;
-type TDispatch = Dispatch<SetStateAction<TProps>>;
-type TCampaigns = [] | ICampaign[];
-
-interface ICampaignsContextValue {
-  keyword: TProps;
-  setKeyword: TDispatch;
-  campaigns: TCampaigns;
-  setCampaigns: Dispatch<SetStateAction<TCampaigns>>;
-  startDate: TProps;
-  setStartDate: TDispatch;
-  endDate: TProps;
-  setEndDate: TDispatch;
-}
 
 export const CampaignsContext = createContext<ICampaignsContextValue>({
   keyword: '',
@@ -46,12 +31,8 @@ export const CampaignsContext = createContext<ICampaignsContextValue>({
   setEndDate: () => {},
 });
 
-export const CampaignsProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const [campaigns, setCampaigns] = useState<ICampaign[] | []>([]);
+export const CampaignsProvider = ({ children }: { children: ReactNode }) => {
+  const [campaigns, setCampaigns] = useState<TCampaigns>([]);
   const [keyword, setKeyword] = useState<string | null>();
   const [startDate, setStartDate] = useState<string | null>();
   const [endDate, setEndDate] = useState<string | null>();
@@ -68,8 +49,8 @@ export const CampaignsProvider = ({
     }
     // formatting data for rendering in MUI table
     return data.reduce(
-      (acc: ICampaign[], row: ICampaign) => [
-        ...acc,
+      (rows: ICampaign[], row: ICampaign) => [
+        ...rows,
         createData(row.id, row.name, row.startDate, row.endDate, row.Budget),
       ],
       []
@@ -89,7 +70,7 @@ export const CampaignsProvider = ({
   }, [keyword]);
 
   useEffect(() => {
-    if (startDate || endDate) {
+    if (startDate) {
       const filteredForDate = campaigns.filter(
         (row) =>
           dayjs(row.startDate) >= dayjs(startDate) &&
@@ -121,12 +102,12 @@ export const CampaignsProvider = ({
 };
 
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <CampaignsProvider>
       <NavSearchBar /> <CampaignDateRangePicker />
       <Table />
     </CampaignsProvider>
-  </React.StrictMode>
+  </StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 
 export default function CampaignDateRangePicker() {
   const { startDate, setStartDate, endDate, setEndDate } =
-    React.useContext(CampaignsContext);
+    useContext(CampaignsContext);
 
   const formatDate = (
     date: string | number | Date | dayjs.Dayjs | null | undefined
@@ -20,7 +20,7 @@ export default function CampaignDateRangePicker() {
       <DemoContainer components={['DatePicker']}>
         <Box sx={{ display: 'flex', marginY: 1 }}>
           <DatePicker
-            sx={{ width: 1 / 4, marginX: 1 }}
+            sx={{ width: 1 / 3, marginX: 1 }}
             defaultValue={startDate}
             onAccept={(newValue: string | null) => {
               setStartDate(formatDate(newValue));
@@ -35,7 +35,7 @@ export default function CampaignDateRangePicker() {
             }}
           />
           <DatePicker
-            sx={{ width: 1 / 4, marginX: 1 }}
+            sx={{ width: 1 / 3, marginX: 1 }}
             defaultValue={endDate}
             onAccept={(newValue: string | null) => {
               setEndDate(formatDate(newValue));

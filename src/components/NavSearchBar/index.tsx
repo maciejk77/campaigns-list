@@ -5,9 +5,11 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import { Search, SearchIconWrapper, StyledInputBase } from './styles';
 import { CampaignsContext } from '../../index';
+import { ICampaignsContextValue } from '../../interfaces';
 
 export default function NavSearchBar() {
-  const { keyword, setKeyword } = useContext(CampaignsContext);
+  const { keyword, setKeyword } =
+    useContext<ICampaignsContextValue>(CampaignsContext);
 
   const handleChange = (e: { target: { value: any } }) => {
     const { value } = e.target;
