@@ -13,7 +13,7 @@ export default function CampaignDateRangePicker() {
 
   const formatDate = (
     date: string | number | Date | dayjs.Dayjs | null | undefined
-  ) => dayjs(date).format('M/DD/YYYY');
+  ) => dayjs(date).format('MM/DD/YYYY');
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -27,6 +27,12 @@ export default function CampaignDateRangePicker() {
             }}
             onChange={() => undefined}
             label="Start Date"
+            slotProps={{
+              actionBar: {
+                actions: ['clear'],
+                onClick: () => setStartDate(null),
+              },
+            }}
           />
           <DatePicker
             sx={{ width: 1 / 4, marginX: 1 }}
@@ -36,6 +42,12 @@ export default function CampaignDateRangePicker() {
             }}
             onChange={() => undefined}
             label="End Date"
+            slotProps={{
+              actionBar: {
+                actions: ['clear'],
+                onClick: () => setEndDate(null),
+              },
+            }}
           />
         </Box>
       </DemoContainer>

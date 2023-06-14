@@ -87,28 +87,18 @@ export const CampaignsProvider = ({
   }, [keyword]);
 
   useEffect(() => {
-    if (startDate) {
+    if (startDate || endDate) {
       const filteredForDate = campaigns.filter(
-        (row) => dayjs(row.startDate) >= dayjs(startDate)
+        (row) =>
+          dayjs(row.startDate) >= dayjs(startDate) &&
+          dayjs(row.endDate) <= dayjs(endDate)
       );
 
       setCampaigns(filteredForDate);
     }
     return () => setCampaigns(rows);
     // eslint-disable-next-line
-  }, [startDate]);
-
-  useEffect(() => {
-    if (endDate) {
-      const filteredForDate = campaigns.filter(
-        (row) => dayjs(row.endDate) >= dayjs(endDate)
-      );
-
-      setCampaigns(filteredForDate);
-    }
-    return () => setCampaigns(rows);
-    // eslint-disable-next-line
-  }, [endDate]);
+  }, [startDate, endDate]);
 
   return (
     <CampaignsContext.Provider
