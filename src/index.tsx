@@ -20,16 +20,18 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-type TDispatch = Dispatch<SetStateAction<string | null | undefined>>;
+type TProps = string | null | undefined;
+type TDispatch = Dispatch<SetStateAction<TProps>>;
+type TCampaigns = [] | ICampaign[];
 
 interface ICampaignsContextValue {
-  keyword: string | null | undefined;
+  keyword: TProps;
   setKeyword: TDispatch;
-  campaigns: ICampaign[] | [];
-  setCampaigns: Dispatch<SetStateAction<[] | ICampaign[]>>;
-  startDate: string | null | undefined;
+  campaigns: TCampaigns;
+  setCampaigns: Dispatch<SetStateAction<TCampaigns>>;
+  startDate: TProps;
   setStartDate: TDispatch;
-  endDate: string | null | undefined;
+  endDate: TProps;
   setEndDate: TDispatch;
 }
 

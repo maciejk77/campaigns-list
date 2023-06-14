@@ -22,7 +22,7 @@ export default function CampaignDateRangePicker() {
           <DatePicker
             sx={{ width: 1 / 4, marginX: 1 }}
             defaultValue={startDate}
-            onAccept={(newValue: any) => {
+            onAccept={(newValue: string | null) => {
               setStartDate(formatDate(newValue));
             }}
             onChange={() => undefined}
@@ -30,14 +30,14 @@ export default function CampaignDateRangePicker() {
             slotProps={{
               actionBar: {
                 actions: ['clear'],
-                onClick: () => setStartDate(null),
+                onClick: () => setStartDate(''),
               },
             }}
           />
           <DatePicker
             sx={{ width: 1 / 4, marginX: 1 }}
             defaultValue={endDate}
-            onAccept={(newValue: any) => {
+            onAccept={(newValue: string | null) => {
               setEndDate(formatDate(newValue));
             }}
             onChange={() => undefined}
@@ -45,7 +45,7 @@ export default function CampaignDateRangePicker() {
             slotProps={{
               actionBar: {
                 actions: ['clear'],
-                onClick: () => setEndDate(null),
+                onClick: () => setEndDate(''),
               },
             }}
           />
