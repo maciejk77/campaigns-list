@@ -14,7 +14,7 @@ import NavSearchBar from './components/NavSearchBar';
 import CampaignDateRangePicker from './components/CampaignDateRangePicker';
 import data from '../src/data.json';
 import { ICampaign } from '../interfaces';
-// import dayjs from 'dayjs';
+import dayjs from 'dayjs';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -65,12 +65,13 @@ export const CampaignsProvider = ({
       return { id, name, startDate, endDate, Budget };
     }
     // formatting data for rendering in MUI table
-    return data.reduce((acc: ICampaign[], row: ICampaign) => {
-      return [
+    return data.reduce(
+      (acc: ICampaign[], row: ICampaign) => [
         ...acc,
         createData(row.id, row.name, row.startDate, row.endDate, row.Budget),
-      ];
-    }, []);
+      ],
+      []
+    );
   }, []);
 
   useEffect(() => {
@@ -85,17 +86,29 @@ export const CampaignsProvider = ({
     // eslint-disable-next-line
   }, [keyword]);
 
-  // useEffect(() => {
-  //   if (startDate) {
-  //     const filteredForDate = campaigns.filter(
-  //       (row) => dayjs(row.startDate) >= dayjs(startDate)
-  //     );
+  useEffect(() => {
+    if (startDate) {
+      const filteredForDate = campaigns.filter(
+        (row) => dayjs(row.startDate) >= dayjs(startDate)
+      );
 
-  //     setCampaigns(filteredForDate);
-  //   }
-  //   return () => setCampaigns(rows);
-  //   // eslint-disable-next-line
-  // }, [startDate]);
+      setCampaigns(filteredForDate);
+    }
+    return () => setCampaigns(rows);
+    // eslint-disable-next-line
+  }, [startDate]);
+
+  useEffect(() => {
+    if (endDate) {
+      const filteredForDate = campaigns.filter(
+        (row) => dayjs(row.endDate) >= dayjs(endDate)
+      );
+
+      setCampaigns(filteredForDate);
+    }
+    return () => setCampaigns(rows);
+    // eslint-disable-next-line
+  }, [endDate]);
 
   return (
     <CampaignsContext.Provider

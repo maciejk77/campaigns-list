@@ -22,15 +22,19 @@ export default function CampaignDateRangePicker() {
           <DatePicker
             sx={{ width: 1 / 4, marginX: 1 }}
             defaultValue={startDate}
-            onChange={(newValue: any) => {
+            onAccept={(newValue: any) => {
               setStartDate(formatDate(newValue));
             }}
+            onChange={() => undefined}
             label="Start Date"
           />
           <DatePicker
             sx={{ width: 1 / 4, marginX: 1 }}
             defaultValue={endDate}
-            onChange={(newValue: any) => setEndDate(formatDate(newValue))}
+            onAccept={(newValue: any) => {
+              setEndDate(formatDate(newValue));
+            }}
+            onChange={() => undefined}
             label="End Date"
           />
         </Box>
